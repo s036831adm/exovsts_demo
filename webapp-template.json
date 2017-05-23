@@ -1,0 +1,74 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"webappName": {
+			"type": "string"
+		},
+		"servicePlanResourceGroupName": {
+			"type": "string"
+		},
+		"servicePlanName": {
+			"type": "string"
+		},
+		"environmentName": {
+			"type": "string"
+		},
+		"webappSettingsTemplateUri": {
+			"type": "string"
+		},
+		"webappSettingsParametersUri": {
+			"type": "string"
+		}
+	},
+	"variables": {},
+	"resources": [{
+		"name": "[parameters('webappName')]",
+		"type": "Microsoft.Web/sites",
+		"location": "[resourceGroup().location]",
+		"apiVersion": "2015-08-01",
+		"dependsOn": [],
+		"tags": {
+			"displayName": "[parameters('webappName')]"
+		},
+		"properties": {
+			"name": "[parameters('webappName')]",
+			"serverFarmId": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/', parameters('servicePlanResourceGroupName'), '/providers/', 'Microsoft.Web/serverfarms/', parameters('servicePlanName'))]",
+			"hostingEnvironment": "[parameters('environmentName')]",
+			"clientAffinityEnabled": false,
+			"siteConfig": {
+				"AlwaysOn": true,
+				"use32BitWorkerProcess": false,
+				"clientAffinityEnabled": false,
+				"phpVersion": "",
+				"pythonVersion": "",
+				"javaVersion": null
+			}
+		},
+		"resources": [{
+			"name": "[concat('linkedTemplateChildResources', '-', uniqueString(parameters('webappName')))]",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2015-01-01",
+			"dependsOn": [
+				"[parameters('webappName')]"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[parameters('webappSettingsTemplateUri')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parametersLink": {
+					"uri": "[parameters('webappSettingsParametersUri')]",
+					"contentVersion": "1.0.0.0"
+				}
+			}
+		}]
+	}],
+	"outputs": {
+		"webapp": {
+			"type": "object",
+			"value": "[reference(parameters('webappName'))]"
+		}
+	}
+}

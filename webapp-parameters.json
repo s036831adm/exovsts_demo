@@ -1,0 +1,24 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "webappName": {
+            "value": "#{WEBAPP_NAME}#"
+        },
+        "servicePlanResourceGroupName": {
+            "value": "#{WEBAPP_SERVICE_PLAN_RESOURCE_GROUP_NAME}#"
+        },
+        "servicePlanName": {
+            "value": "#{WEBAPP_SERVICE_PLAN_NAME}#"
+        },
+        "environmentName": {
+            "value": "#{WEBAPP_ENVIRONMENT_NAME}#"
+        },
+        "webappSettingsTemplateUri": {
+            "value": "#{STORAGE_CONTAINER_URI}##{TEMPLATE_WEBAPP_SETTINGS}##{STORAGE_CONTAINER_SAS_TOKEN}#"
+        },
+        "webappSettingsParametersUri": {
+            "value": "#{STORAGE_CONTAINER_URI}##{PARAMETERS_WEBAPP_SETTINGS}##{STORAGE_CONTAINER_SAS_TOKEN}#"
+        }
+    }
+}
