@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "webappName": {
-            "value": "#{WEBAPP_NAME}#"
+            "value": "#{WEBAPP_NAME1}#"
         },
         "servicePlanResourceGroupName": {
             "value": "#{WEBAPP_SERVICE_PLAN_RESOURCE_GROUP_NAME}#"
